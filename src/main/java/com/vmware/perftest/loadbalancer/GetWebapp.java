@@ -26,13 +26,20 @@ public class GetWebapp extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		try {
-			out.write(getNextServiceFromEureka());
+			String serviceName = request.getParameter("service");
+			if (serviceName == null || serviceName.isEmpty())
+			{
+				System.out.println("ERROR: Parameter : service not specified in the request");
+				return;
+			}
+			out.write(getNextServiceFromEureka(serviceName));
 		}catch(ServiceNotFoundException e){
-			out.write("");			
+						
 		}
+		
 	}
 	
-	public String getNextServiceFromEureka() throws ServiceNotFoundException{
+	public String getNextServiceFromEureka(String serviceName) throws ServiceNotFoundException{
 	
 		//Code taken from Eureka Examples
 	    // initialize the client - 
@@ -41,7 +48,7 @@ public class GetWebapp extends HttpServlet {
                 new DefaultEurekaClientConfig());
 
 		//vipAddress of the Webapp service - Check  acmeair-webapp.properties file
-        String vipAddress = "acmeair-webapp";
+        String vipAddress = serviceName;
 
         InstanceInfo nextServerInfo = null;
         try {
@@ -54,7 +61,7 @@ public class GetWebapp extends HttpServlet {
             throw new ServiceNotFoundException();
         }
 
-		return	nextServerInfo.getVIPAddress() + ":" + nextServerInfo.getPort();
+		return	nextServerInfo.getIPAddr() + ":" + nextServerInfo.getPort();
 	
 	}
 }
