@@ -13,13 +13,12 @@ import com.netflix.discovery.DefaultEurekaClientConfig;
 import com.netflix.discovery.DiscoveryManager;
 import com.netflix.discovery.DiscoveryClient;
 
-/* Always looks for the acmeair-weball service*/
-public class GetWebapp extends HttpServlet {
 
+public class GetService extends HttpServlet {
 
 	public void init(ServletConfig config) throws ServletException {
     	super.init(config);
-		System.out.println("Initialized GetWebapp Servlet...");	    
+		System.out.println("Initialized GetService Servlet...");	    
   }
   
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -27,7 +26,13 @@ public class GetWebapp extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		try {
-			out.write(getNextServiceFromEureka("acmeair-webapp"));
+			String serviceName = request.getParameter("service");
+			if (serviceName == null || serviceName.isEmpty())
+			{
+				System.out.println("ERROR: Parameter : service not specified in the request");
+				return;
+			}
+			out.write(getNextServiceFromEureka(serviceName));
 		}catch(ServiceNotFoundException e){
 						
 		}
