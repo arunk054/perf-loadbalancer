@@ -18,6 +18,12 @@ public class GetService extends HttpServlet {
 
 	public void init(ServletConfig config) throws ServletException {
     	super.init(config);
+    	//Code taken from Eureka Examples
+	    // initialize the client - 
+        DiscoveryManager.getInstance().initComponent(
+                new MyDataCenterInstanceConfig(),
+                new DefaultEurekaClientConfig());
+                
 		System.out.println("Initialized GetService Servlet...");	    
   }
   
@@ -34,18 +40,13 @@ public class GetService extends HttpServlet {
 			}
 			out.write(getNextServiceFromEureka(serviceName));
 		}catch(ServiceNotFoundException e){
-						
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);		
 		}
 		
 	}
 	
 	public String getNextServiceFromEureka(String serviceName) throws ServiceNotFoundException{
 	
-		//Code taken from Eureka Examples
-	    // initialize the client - 
-        DiscoveryManager.getInstance().initComponent(
-                new MyDataCenterInstanceConfig(),
-                new DefaultEurekaClientConfig());
 
 		//vipAddress of the Webapp service - Check  acmeair-webapp.properties file
         String vipAddress = serviceName;
@@ -61,7 +62,9 @@ public class GetService extends HttpServlet {
             throw new ServiceNotFoundException();
         }
 
-		return	nextServerInfo.getIPAddr() + ":" + nextServerInfo.getPort();
+		//return	nextServerInfo.getIPAddr() + ":" + nextServerInfo.getPort();
+		//Assume default port
+		return	nextServerInfo.getIPAddr();
 	
 	}
 }

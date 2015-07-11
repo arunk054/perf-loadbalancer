@@ -13,6 +13,17 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 		<servlet-name>GetWebapp</servlet-name>
 		<url-pattern>/GetWebapp</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>GetCachedWebapp</servlet-name>
+		<servlet-class>com.vmware.perftest.loadbalancer.GetCachedWebapp</servlet-class>
+	</servlet>
+ 
+	<servlet-mapping>
+		<servlet-name>GetCachedWebapp</servlet-name>
+		<url-pattern>/GetCachedWebapp</url-pattern>
+	</servlet-mapping>
+
 	
 	<servlet>
 		<servlet-name>GetService</servlet-name>

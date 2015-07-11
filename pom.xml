@@ -11,11 +11,12 @@
   <url>http://maven.apache.org</url>
  
   <dependencies>
-		<dependency>
-    		<groupId>com.netflix.eureka</groupId>
-		    <artifactId>eureka-client</artifactId>
-		    <version>1.1.142</version>
-		</dependency> 
+
+	<dependency>
+    		<groupId>com.netflix.ribbon</groupId>
+    		<artifactId>ribbon-eureka</artifactId>
+    		<version>0.3.13</version>
+	</dependency>	
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
